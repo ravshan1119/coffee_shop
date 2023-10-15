@@ -2,9 +2,8 @@ import 'dart:math';
 import 'package:coffee_shop/ui/home/components/food.dart';
 import 'package:coffee_shop/ui/home/components/rotate_food.dart';
 import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
-import 'package:coffee_shop/ui/home/utils/const.dart';
-import 'package:coffee_shop/services/precache_service.dart';
-import 'package:coffee_shop/ui/home/utils/utils.dart';
+import 'package:coffee_shop/ui/utils/const.dart';
+import 'package:coffee_shop/ui/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unicons/unicons.dart';
@@ -28,7 +27,7 @@ class _HomeState extends ConsumerState<Home> {
 
   @override
   void didChangeDependencies() {
-    PreCacheImages.preCacheImages(context);
+    // PreCacheImages.preCacheImages(context);
     super.didChangeDependencies();
   }
 
@@ -85,7 +84,7 @@ class _HomeState extends ConsumerState<Home> {
             },
             itemBuilder: (context, index) {
               return Container(
-                color: foodList[index].colorScheme!.background,
+                color: Colors.white,
               );
             },
             itemCount: foodList.length,

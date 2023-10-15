@@ -1,4 +1,4 @@
-import 'package:coffee_shop/data/model/food_detail.dart';
+import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/ui/home/components/food.dart';
 import 'package:coffee_shop/ui/widgets/global_button.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unicons/unicons.dart';
 
 class FoodRecipe extends StatefulWidget {
-  final FoodDetail detail;
+  final CoffeeModel detail;
+
   const FoodRecipe({super.key, required this.detail});
 
   @override
@@ -36,15 +37,15 @@ class _FoodRecipeState extends State<FoodRecipe>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: widget.detail.colorScheme!.background,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             UniconsLine.arrow_left,
             size: 30,
-            color: widget.detail.textColor,
+            color: Colors.black,
           ),
           onPressed: () {
             _animationController.reverse();
@@ -62,7 +63,7 @@ class _FoodRecipeState extends State<FoodRecipe>
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: Hero(
-                    tag: widget.detail.pictureAlt!,
+                    tag: widget.detail.pictureAlt,
                     child:
                         Image.asset('lib/assets/${widget.detail.pictureAlt}')),
               ),
@@ -70,15 +71,15 @@ class _FoodRecipeState extends State<FoodRecipe>
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Hero(
-                tag: widget.detail.name!,
+                tag: widget.detail.name,
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(
-                    widget.detail.name!,
+                    widget.detail.name,
                     style: GoogleFonts.ibmPlexSerif().copyWith(
                       fontSize: 27,
                       fontWeight: FontWeight.w900,
-                      color: widget.detail.textColor,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -88,7 +89,12 @@ class _FoodRecipeState extends State<FoodRecipe>
               children: [
                 Flexible(
                   child: AnimatedTile(
-                    data: widget.detail.attributes![0],
+                    data: Attribute(
+                        icon: const Icon(
+                          Icons.access_time,
+                          color: Colors.green,
+                        ),
+                        title: "10 min"),
                     animate: false,
                   ),
                 ),
@@ -96,19 +102,28 @@ class _FoodRecipeState extends State<FoodRecipe>
                   flex: 2,
                   child: SizedBox(
                     child: AnimatedTile(
-                      data: widget.detail.attributes![1],
+                      data: Attribute(
+                          icon: const Icon(
+                            Icons.price_change,
+                            color: Colors.green,
+                          ),
+                          title: widget.detail.price.toString()),
                       animate: false,
                     ),
                   ),
                 ),
               ],
             ),
-            Text(widget.detail.description!,style: TextStyle(
-              color: widget.detail.textColor,
-              fontSize: 12
-            ),),
+            Text(
+              widget.detail.description,
+              style: const TextStyle(color: Colors.black, fontSize: 12),
+            ),
             const SizedBox(height: 50),
-            GlobalButton(title: "Buy now", onTap: (){},color: Colors.green,),
+            GlobalButton(
+              title: "Buy now",
+              onTap: () {},
+              color: Colors.green,
+            ),
           ],
         ),
       ),

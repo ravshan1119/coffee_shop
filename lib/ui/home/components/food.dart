@@ -1,4 +1,4 @@
-import 'package:coffee_shop/data/model/food_detail.dart';
+import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/ui/home/components/animate_text.dart';
 import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Food extends ConsumerStatefulWidget {
-  final FoodDetail foodDetail;
+  final CoffeeModel foodDetail;
   final PageController pageController;
   const Food(
       {super.key, required this.foodDetail, required this.pageController});
@@ -47,15 +47,15 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Hero(
-                tag: widget.foodDetail.name!,
+                tag: widget.foodDetail.name,
                 child: Material(
                   type: MaterialType.transparency,
                   child: AnimateText(
-                    widget.foodDetail.name!,
+                    widget.foodDetail.name,
                     style: GoogleFonts.ibmPlexSerif().copyWith(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
-                      color: widget.foodDetail.textColor,
+                      color: Colors.black,
                     ),
                     controller: _controller,
                   ),
@@ -65,8 +65,23 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
             const SizedBox(
               height: 50,
             ),
-            ...widget.foodDetail.attributes!.map(
-              (data) => AnimatedTile(controller: _controller, data: data),
+            AnimatedTile(
+              data: Attribute(
+                  icon: const Icon(
+                    Icons.access_time,
+                    color: Colors.green,
+                  ),
+                  title: "10 min"),
+              animate: false,
+            ),
+            AnimatedTile(
+              data: Attribute(
+                  icon: const Icon(
+                    Icons.price_change,
+                    color: Colors.green,
+                  ),
+                  title: widget.foodDetail.price.toString()),
+              animate: false,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height/5,
@@ -77,10 +92,10 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.65,
                   child: AnimateText(
-                    widget.foodDetail.description!,
-                    style: TextStyle(
+                    widget.foodDetail.description,
+                    style: const TextStyle(
                       fontSize: 12,
-                      color: widget.foodDetail.textColor,
+                      color: Colors.black,
                     ),
                     controller: _controller,
                   ),

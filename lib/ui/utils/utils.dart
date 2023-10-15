@@ -1,8 +1,8 @@
-import 'package:coffee_shop/data/model/food_detail.dart';
+import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/ui/food_details/details.dart';
 import 'package:flutter/material.dart';
 
-navigateToDetail(FoodDetail food, BuildContext context) {
+navigateToDetail(CoffeeModel food, BuildContext context) {
   Navigator.push(
     context,
     PageRouteBuilder<void>(

@@ -1,46 +1,60 @@
+import 'package:flutter/material.dart';
+
 class CoffeeModel {
   String name;
-  String description;
   double price;
-  String type;
-  String image;
+  String picture;
+  String pictureAlt;
+  String description;
 
-  CoffeeModel({
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.type,
-    required this.image,
-  });
+  CoffeeModel(
+      {required this.name,
+      required this.price,
+      required this.picture,
+      required this.description,
+      required this.pictureAlt});
 
-  CoffeeModel copyWith({
-    String? name,
-    String? description,
-    double? price,
-    String? type,
-    String? image,
-  }) =>
-      CoffeeModel(
-        name: name ?? this.name,
-        description: description ?? this.description,
-        price: price ?? this.price,
-        type: type ?? this.type,
-        image: image ?? this.image,
-      );
+  @override
+  String toString() {
+    return 'FoodDetail(title: $name, picture: $picture, description: $description, price: $price, pictureAlt: $pictureAlt';
+  }
 
   factory CoffeeModel.fromJson(Map<String, dynamic> json) => CoffeeModel(
-        name: json["name"] as String? ?? "",
-        description: json["description"] as String? ?? "",
+        name: json['title'] as String? ?? "",
+        picture: json['picture'] as String? ?? "",
+        description: json['description'] as String? ?? "",
         price: json["price"] as double? ?? 0.0,
-        type: json["type"] as String? ?? "",
-        image: json["image"] as String? ?? "",
+        pictureAlt: json["pictureAlt"] as String? ?? "",
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "description": description,
-        "price": price,
-        "type": type,
-        "image": image,
+        'name': name,
+        'price': price,
+        'picture': picture,
+        'pictureAlt': pictureAlt,
+        'description': description,
       };
+
+  CoffeeModel copyWith({
+    String? name,
+    double? price,
+    String? picture,
+    String? pictureAlt,
+    String? description,
+  }) {
+    return CoffeeModel(
+      name: name ?? this.name,
+      price: price ?? this.price,
+      picture: picture ?? this.picture,
+      pictureAlt: pictureAlt ?? this.pictureAlt,
+      description: description ?? this.description,
+    );
+  }
+}
+
+class Attribute {
+  final Icon icon;
+  final String title;
+
+  Attribute({required this.icon, required this.title});
 }

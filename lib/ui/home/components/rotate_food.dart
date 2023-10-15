@@ -1,6 +1,6 @@
 import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
-import 'package:coffee_shop/ui/home/utils/const.dart';
-import 'package:coffee_shop/ui/home/utils/utils.dart';
+import 'package:coffee_shop/ui/utils/const.dart';
+import 'package:coffee_shop/ui/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,7 +82,7 @@ class _RotateFoodState extends ConsumerState<RotateFood>
         }
       },
       child: Hero(
-        tag: foodList[widget.currentIndex].pictureAlt!,
+        tag: foodList[widget.currentIndex].pictureAlt,
         flightShuttleBuilder: (flightContext, animation, flightDirection,
             fromHeroContext, toHeroContext) {
           return Image.asset(

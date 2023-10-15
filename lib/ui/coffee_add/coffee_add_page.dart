@@ -1,16 +1,17 @@
 import 'dart:io';
-
 import 'package:coffee_shop/cubits/coffee_add/coffee_add_cubit.dart';
 import 'package:coffee_shop/data/firebase/coffee_service.dart';
 import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/data/universal_data.dart';
 import 'package:coffee_shop/ui/utils/loading_dialog.dart';
-import 'package:coffee_shop/ui/utils/utils.dart';
 import 'package:coffee_shop/ui/widgets/global_button.dart';
 import 'package:coffee_shop/ui/widgets/global_input.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class CoffeeAddPage extends StatefulWidget {
   const CoffeeAddPage({super.key});
@@ -21,9 +22,7 @@ class CoffeeAddPage extends StatefulWidget {
 
 class _CoffeeAddPageState extends State<CoffeeAddPage> {
   TextEditingController nameController = TextEditingController();
-
   TextEditingController priceController = TextEditingController();
-
   TextEditingController descriptionController = TextEditingController();
 
   CoffeeService coffeeService = CoffeeService();
@@ -31,16 +30,16 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
   ImagePicker pickerOne = ImagePicker();
   ImagePicker pickerTwo = ImagePicker();
 
-  String imagePath = defaultImageConstant;
+  File? _photo;
+  File? _photoTwo;
 
-  String? selectedImagePath;
-  String? selectedImagePathTwo;
+  var storage = FirebaseStorage.instance;
 
   @override
   void initState() {
     super.initState();
-    selectedImagePath != null;
-    selectedImagePathTwo != null;
+    _photo != null;
+    _photoTwo != null;
   }
 
   @override
@@ -78,112 +77,86 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
                       maxLines: 5,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 270,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                          border: Border.all(color: Colors.green),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: selectedImagePath == null
-                            ? Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showCameraAndGalleryDialog(context,
-                                          (imagePath) {
-                                        if (imagePath != null) {
-                                          setState(() {
-                                            selectedImagePath = imagePath;
-                                          });
-                                        }
-                                      });
-                                    },
-                                    child: const Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.camera,
-                                            size: 64,
-                                          ),
-                                          Text(
-                                            "Picture",
-                                            style: TextStyle(fontSize: 24),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Image.file(
-                                File(selectedImagePath!),
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 270,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.green),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: selectedImagePathTwo == null
-                            ? Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showCameraAndGalleryDialog(context,
-                                          (imagePath) {
-                                        if (imagePath != null) {
-                                          setState(() {
-                                            selectedImagePathTwo = imagePath;
-                                          });
-                                        }
-                                      });
-                                    },
-                                    child: const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.camera,
-                                          size: 64,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                radius: 55,
+                                backgroundColor: const Color(0xffFDCF09),
+                                child: _photo != null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.file(
+                                          _photo!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fitHeight,
                                         ),
-                                        Text(
-                                          "Picture Art",
-                                          style: TextStyle(fontSize: 24),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Image.file(
-                                File(selectedImagePathTwo!),
-                                width: double.infinity,
-                                fit: BoxFit.cover,
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        width: 100,
+                                        height: 100,
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
                               ),
+                            ),
+                          ),
+                          const Text("picture one"),
+                        ],
                       ),
-                    ),
+                      Column(
+                        children: [
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showPickerTwo(context);
+                              },
+                              child: CircleAvatar(
+                                radius: 55,
+                                backgroundColor: const Color(0xffFDCF09),
+                                child: _photoTwo != null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.file(
+                                          _photoTwo!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        width: 100,
+                                        height: 100,
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                          const Text("picture two"),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 100),
                 ],
@@ -204,9 +177,9 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
                           id: "",
                           name: nameController.text,
                           price: double.parse(priceController.text),
-                          picture: selectedImagePath!,
+                          picture: _photo!.path,
                           description: descriptionController.text,
-                          pictureAlt: selectedImagePathTwo!,
+                          pictureAlt: _photoTwo!.path,
                         );
 
                         showLoading(context: context);
@@ -245,5 +218,139 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
         );
       },
     );
+  }
+
+  Future imgFromGallery() async {
+    final pickedFile = await pickerOne.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+        uploadFile();
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
+
+  Future imgFromGalleryTwo() async {
+    final pickedFile = await pickerOne.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photoTwo = File(pickedFile.path);
+        uploadFile();
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
+
+  Future imgFromCamera() async {
+    final pickedFile = await pickerOne.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+        uploadFile();
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
+
+  Future imgFromCameraTwo() async {
+    final pickedFile = await pickerOne.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photoTwo = File(pickedFile.path);
+        uploadFile();
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
+
+  Future uploadFile() async {
+    if (_photo == null) return;
+    final fileName = basename(_photo!.path);
+    final destination = 'files/$fileName';
+
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+      await ref.putFile(_photo!);
+    } catch (e) {
+      debugPrint('error occured');
+    }
+  }
+
+  Future uploadFileTwo() async {
+    if (_photo == null) return;
+    final fileName = basename(_photo!.path);
+    final destination = 'files/$fileName';
+
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+      await ref.putFile(_photo!);
+    } catch (e) {
+      debugPrint('error occured');
+    }
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Gallery'),
+                    onTap: () {
+                      imgFromGallery();
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _showPickerTwo(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Gallery'),
+                    onTap: () {
+                      imgFromGalleryTwo();
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    imgFromCameraTwo();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

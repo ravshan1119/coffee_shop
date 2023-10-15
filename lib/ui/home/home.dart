@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:coffee_shop/ui/coffee_add/coffee_add_page.dart';
 import 'package:coffee_shop/ui/home/components/food.dart';
 import 'package:coffee_shop/ui/home/components/rotate_food.dart';
 import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
@@ -67,7 +68,21 @@ class _HomeState extends ConsumerState<Home> {
         ),
       ),
       appBar: AppBar(
-        toolbarHeight: 0,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CoffeeAddPage(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Colors.green,
+              )),
+        ],
         forceMaterialTransparency: true,
       ),
       body: Stack(

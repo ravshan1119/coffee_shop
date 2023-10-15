@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:coffee_shop/cubits/coffee_add/coffee_add_cubit.dart';
 import 'package:coffee_shop/data/firebase/coffee_service.dart';
 import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/data/universal_data.dart';
 import 'package:coffee_shop/ui/utils/loading_dialog.dart';
+import 'package:coffee_shop/ui/utils/utils.dart';
 import 'package:coffee_shop/ui/widgets/global_button.dart';
 import 'package:coffee_shop/ui/widgets/global_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CoffeeAddPage extends StatefulWidget {
   const CoffeeAddPage({super.key});
@@ -23,6 +27,21 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
   TextEditingController descriptionController = TextEditingController();
 
   CoffeeService coffeeService = CoffeeService();
+
+  ImagePicker pickerOne = ImagePicker();
+  ImagePicker pickerTwo = ImagePicker();
+
+  String imagePath = defaultImageConstant;
+
+  String? selectedImagePath;
+  String? selectedImagePathTwo;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedImagePath != null;
+    selectedImagePathTwo != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +80,110 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: GlobalButton(
-                        title: "Picture", color: Colors.green, onTap: () {}),
+                    child: Container(
+                      height: 270,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                          border: Border.all(color: Colors.green),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: selectedImagePath == null
+                            ? Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showCameraAndGalleryDialog(context,
+                                          (imagePath) {
+                                        if (imagePath != null) {
+                                          setState(() {
+                                            selectedImagePath = imagePath;
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: const Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.camera,
+                                            size: 64,
+                                          ),
+                                          Text(
+                                            "Picture",
+                                            style: TextStyle(fontSize: 24),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Image.file(
+                                File(selectedImagePath!),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
                   ),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: GlobalButton(
-                        title: "PictureArt", color: Colors.green, onTap: () {}),
+                    child: Container(
+                      height: 270,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.green),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: selectedImagePathTwo == null
+                            ? Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showCameraAndGalleryDialog(context,
+                                          (imagePath) {
+                                        if (imagePath != null) {
+                                          setState(() {
+                                            selectedImagePathTwo = imagePath;
+                                          });
+                                        }
+                                      });
+                                    },
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.camera,
+                                          size: 64,
+                                        ),
+                                        Text(
+                                          "Picture Art",
+                                          style: TextStyle(fontSize: 24),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Image.file(
+                                File(selectedImagePathTwo!),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 100),
                 ],
@@ -88,9 +204,9 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
                           id: "",
                           name: nameController.text,
                           price: double.parse(priceController.text),
-                          picture: "picture",
+                          picture: selectedImagePath!,
                           description: descriptionController.text,
-                          pictureAlt: "pictureAlt",
+                          pictureAlt: selectedImagePathTwo!,
                         );
 
                         showLoading(context: context);
@@ -111,7 +227,7 @@ class _CoffeeAddPageState extends State<CoffeeAddPage> {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
-                           }
+                          }
                         }
                       } else {
                         const snackBar = SnackBar(

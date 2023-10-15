@@ -1,4 +1,4 @@
-import 'package:coffee_shop/foodDetails/components/tab_bar.dart';
+import 'package:coffee_shop/food_details/components/tab_bar.dart';
 import 'package:coffee_shop/home/components/food.dart';
 import 'package:coffee_shop/home/models/food_detail.dart';
 import 'package:flutter/material.dart';
@@ -104,13 +104,13 @@ class _FoodRecipeState extends State<FoodRecipe>
                 ),
               ],
             ),
-            Expanded(
-              child: ReciepeTab(
-                textColor: widget.detail.textColor!,
-                controller: _animationController,
-                ingredients: widget.detail.ingredients ?? [],
-              ),
-            )
+            // Expanded(
+            //   child: ReciepeTab(
+            //     textColor: widget.detail.textColor!,
+            //     controller: _animationController,
+            //     ingredients: widget.detail.ingredients ?? [],
+            //   ),
+            // )
           ],
         ),
       ),

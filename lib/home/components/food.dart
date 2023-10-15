@@ -44,18 +44,6 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: AnimateText(
-                "DAILY COOKING QWEST",
-                style: TextStyle(
-                    color: Colors.grey[400],
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12),
-                controller: _controller,
-                autoPlay: true,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Hero(

@@ -69,14 +69,8 @@ class _HomeState extends ConsumerState<Home> {
         ),
       ),
       appBar: AppBar(
+        toolbarHeight: 0,
         forceMaterialTransparency: true,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.arrow_back,
-            color: foodList[currentIndex].textColor,
-          ),
-        ),
       ),
       body: Stack(
         children: [

@@ -1,5 +1,5 @@
-import 'package:coffee_shop/foodDetails/components/ingredients.dart';
-import 'package:coffee_shop/foodDetails/components/methods.dart';
+import 'package:coffee_shop/food_details/components/ingredients.dart';
+import 'package:coffee_shop/food_details/components/methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 class ReciepeTab extends StatefulWidget {

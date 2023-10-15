@@ -1,6 +1,6 @@
-import 'package:coffee_shop/home/components/animate_text.dart';
-import 'package:coffee_shop/home/models/food_detail.dart';
-import 'package:coffee_shop/home/providers/transition_provider.dart';
+import 'package:coffee_shop/data/model/food_detail.dart';
+import 'package:coffee_shop/ui/home/components/animate_text.dart';
+import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,11 +47,11 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Hero(
-                tag: widget.foodDetail.title!,
+                tag: widget.foodDetail.name!,
                 child: Material(
                   type: MaterialType.transparency,
                   child: AnimateText(
-                    widget.foodDetail.title!,
+                    widget.foodDetail.name!,
                     style: GoogleFonts.ibmPlexSerif().copyWith(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
@@ -68,8 +68,8 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
             ...widget.foodDetail.attributes!.map(
               (data) => AnimatedTile(controller: _controller, data: data),
             ),
-            const SizedBox(
-              height: 50,
+            SizedBox(
+              height: MediaQuery.of(context).size.height/5,
             ),
             Expanded(
               child: Align(

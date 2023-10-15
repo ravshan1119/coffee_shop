@@ -1,6 +1,6 @@
-import 'package:coffee_shop/food_details/components/tab_bar.dart';
-import 'package:coffee_shop/home/components/food.dart';
-import 'package:coffee_shop/home/models/food_detail.dart';
+import 'package:coffee_shop/data/model/food_detail.dart';
+import 'package:coffee_shop/ui/home/components/food.dart';
+import 'package:coffee_shop/ui/widgets/global_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unicons/unicons.dart';
@@ -56,8 +56,7 @@ class _FoodRecipeState extends State<FoodRecipe>
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Center(
               child: SizedBox(
@@ -71,11 +70,11 @@ class _FoodRecipeState extends State<FoodRecipe>
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Hero(
-                tag: widget.detail.title!,
+                tag: widget.detail.name!,
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(
-                    widget.detail.title!,
+                    widget.detail.name!,
                     style: GoogleFonts.ibmPlexSerif().copyWith(
                       fontSize: 27,
                       fontWeight: FontWeight.w900,
@@ -89,7 +88,7 @@ class _FoodRecipeState extends State<FoodRecipe>
               children: [
                 Flexible(
                   child: AnimatedTile(
-                    data: widget.detail.attributes![1],
+                    data: widget.detail.attributes![0],
                     animate: false,
                   ),
                 ),
@@ -97,20 +96,19 @@ class _FoodRecipeState extends State<FoodRecipe>
                   flex: 2,
                   child: SizedBox(
                     child: AnimatedTile(
-                      data: widget.detail.attributes![3],
+                      data: widget.detail.attributes![1],
                       animate: false,
                     ),
                   ),
                 ),
               ],
             ),
-            // Expanded(
-            //   child: ReciepeTab(
-            //     textColor: widget.detail.textColor!,
-            //     controller: _animationController,
-            //     ingredients: widget.detail.ingredients ?? [],
-            //   ),
-            // )
+            Text(widget.detail.description!,style: TextStyle(
+              color: widget.detail.textColor,
+              fontSize: 12
+            ),),
+            const SizedBox(height: 50),
+            GlobalButton(title: "Buy now", onTap: (){},color: Colors.green,),
           ],
         ),
       ),

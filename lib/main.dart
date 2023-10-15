@@ -1,4 +1,4 @@
-import 'package:coffee_shop/home/home.dart';
+import 'package:coffee_shop/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

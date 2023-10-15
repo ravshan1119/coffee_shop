@@ -1,6 +1,6 @@
-import 'package:coffee_shop/const.dart';
-import 'package:coffee_shop/home/providers/transition_provider.dart';
-import 'package:coffee_shop/home/utils/utils.dart';
+import 'package:coffee_shop/ui/home/providers/transition_provider.dart';
+import 'package:coffee_shop/ui/home/utils/const.dart';
+import 'package:coffee_shop/ui/home/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

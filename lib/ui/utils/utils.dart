@@ -1,6 +1,8 @@
 import 'package:coffee_shop/data/model/coffee_model.dart';
 import 'package:coffee_shop/ui/food_details/details.dart';
 import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
+
 
 navigateToDetail(CoffeeModel food, BuildContext context) {
   Navigator.push(
@@ -24,3 +26,19 @@ navigateToDetail(CoffeeModel food, BuildContext context) {
     ),
   );
 }
+
+
+class CustomError extends Equatable {
+  final String errMsg;
+  const CustomError({
+    this.errMsg = '',
+  });
+
+  @override
+  List<Object?> get props => [errMsg];
+
+  @override
+  bool get stringify => true;
+}
+
+enum FormStatus { initial, loading, loaded, error }

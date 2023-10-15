@@ -1,42 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class GlobalTextField extends StatefulWidget {
   final String hintText;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final Widget? prefixIcon;
-  final String caption;
   final ValueChanged? onChanged;
   final FocusNode? focusNode;
-  final bool readOnly;
-  final TextInputFormatter? maskFormatter;
   final TextEditingController? controller;
   final Widget? suffixIcon;
-  final bool? obscureText;
-  final EdgeInsets? contentPadding;
   final int? maxLines;
   final int? maxLength;
-  final TextCapitalization textCapitalization;
 
   const GlobalTextField({
     Key? key,
     required this.hintText,
-    this.textCapitalization = TextCapitalization.none,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
     this.prefixIcon,
-    this.maxLength,
+    this.maxLength = 10000,
     this.maxLines = 1,
-    this.caption = "",
     this.suffixIcon,
-    this.readOnly = false,
     this.controller,
     this.onChanged,
     this.focusNode,
-    this.maskFormatter,
-    this.obscureText,
-    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -68,47 +55,37 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (String value) {
-        widget.onChanged!(value);
-      },
-      obscuringCharacter: '●',
-      readOnly: widget.readOnly,
+      onChanged: widget.onChanged,
       controller: _internalController,
       maxLines: widget.maxLines,
-      maxLength: widget.maxLength,
-      textCapitalization: widget.textCapitalization,
+      // maxLength: widget.maxLength,
       focusNode: widget.focusNode ?? internalFocusNode,
-      inputFormatters:
-          widget.maskFormatter != null ? [widget.maskFormatter!] : [],
-      obscureText: widget.obscureText ?? false,
       decoration: InputDecoration(
-        counterText: '',
         hintStyle: const TextStyle(
-          fontFamily: "Urbanest",
+          fontFamily: "Poppins",
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: Color(0xff9e9e9e),
           height: 20 / 14,
         ),
-        contentPadding: widget.contentPadding,
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFFFAFAFA)),
-          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.green, width: 1),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.green),
-          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.green, width: 1),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFFFAFAFA)),
-          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.green, width: 1),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         fillColor: Colors.white,
         filled: true,

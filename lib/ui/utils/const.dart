@@ -2,6 +2,7 @@ import 'package:coffee_shop/data/model/coffee_model.dart';
 
 List<CoffeeModel> foodList = [
   CoffeeModel(
+    id: "",
     name: "Cappuccino",
     price: 1.2,
     description:
@@ -10,6 +11,7 @@ List<CoffeeModel> foodList = [
     pictureAlt: 'Plate-1-alt.png',
   ),
   CoffeeModel(
+    id: "",
     name: "Drizzled with Caramel",
     price: 2.0,
     description:
@@ -18,6 +20,7 @@ List<CoffeeModel> foodList = [
     pictureAlt: "Plate-3-alt.png",
   ),
   CoffeeModel(
+    id: "",
     name: "Bursting Blueberry",
     price: 3.2,
     description:
@@ -26,6 +29,7 @@ List<CoffeeModel> foodList = [
     pictureAlt: "Plate-2-alt.png",
   ),
   CoffeeModel(
+    id: "",
     name: "Cinnamon & Cocoa",
     price: 3.0,
     description:
